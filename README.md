@@ -30,6 +30,10 @@ mvn clean install
 ```bash
 mvn spring:boot run
 ```
+OR
+```
+java -jar path/to/jar/java-mysql-mcp-0.0.1-SNAPSHOT.jar
+```
 
 The application will start on `http://localhost:8080`
 
@@ -41,4 +45,7 @@ The application uses the following main configurations:
 - HikariCP connection pool size: 10
 - Hibernate ddl-auto: update (automatically updates database schema)
 
-You can modify these settings in `src/main/resources/application.properties` 
+You can modify these settings in `src/main/resources/application.properties`
+
+### Debug
+You can use the mcp inspector for testing and debugging
