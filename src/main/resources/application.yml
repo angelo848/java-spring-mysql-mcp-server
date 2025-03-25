@@ -4,6 +4,7 @@ server:
 spring:
   main:
     banner-mode: off
+    web-application-type: none
   datasource:
     url: jdbc:mysql://localhost:3306/todolist?useSSL=false&serverTimezone=UTC
     username: myuser
@@ -23,6 +24,17 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: my-weather-server
+        version: 0.0.1
+        # SYNC or ASYNC
+        type: SYNC
+        resource-change-notification: true
+        tool-change-notification: true
+        prompt-change-notification: true
 
 # logs on the stdout interfere on protocol operation
 logging:

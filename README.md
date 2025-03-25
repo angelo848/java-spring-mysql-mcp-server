@@ -47,5 +47,30 @@ The application uses the following main configurations:
 
 You can modify these settings in `src/main/resources/application.properties`
 
+`spring.main.web-application-type: none` is mandatory for connect to server via stdio, otherwise this error will be thrown:
+```
+2025-03-25T09:21:30.352-03:00  WARN 25352 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+```
+
+## Usage on MCP clients
+```
+{
+  "mcpServers": {
+    "spring-ai-mcp-weather": {
+      "command": "java",
+      "args": [
+        "-Dspring.ai.mcp.server.stdio=true",
+        "-jar",
+        "/Users/asalles/projects/java-mysql-mcp/target/java-mysql-mcp-0.0.1-SNAPSHOT.jar"
+      ]
+    }
+  }
+}
+```
+
 ### Debug
-You can use the mcp inspector for testing and debugging
+You can use the mcp inspector for testing and debugging with the following command:
+```
+npx @modelcontextprotocol/inspector java -Dspring.ai.mcp.server.stdio=true -jar /path/to/project/target/java-mysql-mcp-0.0.1-SNAPSHOT.jar
+```
+The logs output in ./mcp-weather-stdio-server.log will only be shown if running with this tool
