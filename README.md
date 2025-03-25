@@ -28,7 +28,7 @@ mvn clean install
 
 2. Run the application:
 ```bash
-mvn spring:boot run
+mvn spring-boot run
 ```
 OR
 ```
