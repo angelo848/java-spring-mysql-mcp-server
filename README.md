@@ -56,7 +56,7 @@ You can modify these settings in `src/main/resources/application.properties`
 ```
 {
   "mcpServers": {
-    "spring-ai-mcp-weather": {
+    "spring-ai-mcp-mysql": {
       "command": "java",
       "args": [
         "-Dspring.ai.mcp.server.stdio=true",
@@ -73,4 +73,4 @@ You can use the mcp inspector for testing and debugging with the following comma
 ```
 npx @modelcontextprotocol/inspector java -Dspring.ai.mcp.server.stdio=true -jar /path/to/project/target/java-mysql-mcp-0.0.1-SNAPSHOT.jar
 ```
-The logs output in ./mcp-weather-stdio-server.log will only be shown if running with this tool
+The logs output in ./mcp-mysql-stdio-server.log will only be shown if running with this tool
