@@ -73,47 +73,6 @@ public class DBService {
     }
 
     /**
-     * Retrieves all rows from a specified table
-     * @param tableName The name of the table to query
-     * @return Formatted string representation of the rows
-     */
-    @Tool(description = "Retrieve all rows from a specified table")
-    public String getRows(String tableName) {
-        if (!isValidTableName(tableName)) {
-            return "Invalid table name. Only alphanumeric characters and underscores are allowed.";
-        }
-        
-        if (!tableExists(tableName)) {
-            return "Table '" + tableName + "' does not exist.";
-        }
-        
-        try {
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList("SELECT * FROM " + tableName);
-            if (rows.isEmpty()) {
-                return "No data found in table '" + tableName + "'";
-            }
-            
-            StringBuilder result = new StringBuilder();
-            // Add headers
-            Map<String, Object> firstRow = rows.get(0);
-            result.append(String.join(" | ", firstRow.keySet())).append("\n");
-            result.append("-".repeat(result.length())).append("\n");
-            
-            // Add data rows
-            for (Map<String, Object> row : rows) {
-                result.append(row.values().stream()
-                    .map(val -> val == null ? "NULL" : val.toString())
-                    .collect(Collectors.joining(" | ")))
-                    .append("\n");
-            }
-            return result.toString();
-        } catch (DataAccessException e) {
-            logger.error("Error retrieving rows from table: {}", tableName, e);
-            return "Error retrieving data: " + e.getMessage();
-        }
-    }
-
-    /**
      * Retrieves rows from a specified table with pagination
      * @param tableName The name of the table to query
      * @param page The page number (0-based)
@@ -131,7 +90,7 @@ public class DBService {
         }
         
         if (page < 0) page = 0;
-        if (pageSize <= 0) pageSize = 10;
+        if (pageSize <= 0) pageSize = 50;
         
         try {
             int offset = page * pageSize;

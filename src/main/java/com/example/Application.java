@@ -1,15 +1,15 @@
 package com.example;
 
 import com.example.services.DBService;
-import com.zaxxer.hikari.HikariDataSource; // added import
+import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import javax.sql.DataSource; // added import
 import org.springframework.util.StringUtils;
+
 
 @SpringBootApplication
 public class Application {
@@ -26,6 +26,7 @@ public class Application {
     public DataSource dataSource() {
         String dbHost = System.getProperty("db_host");
         String dbSchema = System.getProperty("db_schema");
+        String dbPort = System.getProperty("db_port");
         String username = System.getProperty("db_username");
         String password = System.getProperty("db_password");
 
@@ -46,8 +47,12 @@ public class Application {
             throw new IllegalStateException("Database password environment variable 'db_password' is not set");
         }
 
+        if (!StringUtils.hasText(dbPort)) {
+            dbPort = "3306";
+        }
+
         // Format the JDBC URL using the host
-        String jdbcUrl = String.format("jdbc:mysql://%s:3306/%s", dbHost, dbSchema);
+        String jdbcUrl = String.format("jdbc:mysql://%s:%s/%s", dbHost, dbPort, dbSchema);
 
         HikariDataSource ds = new HikariDataSource();
         ds.setJdbcUrl(jdbcUrl);
