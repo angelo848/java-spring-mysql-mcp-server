@@ -4,7 +4,7 @@ target/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-mcp-weather-stdio-server.log
+*.log
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
