@@ -30,5 +30,9 @@ logging:
   pattern:
     console:
   file:
-    name: ./mcp-mysql-stdio-server.log
-  
+    name: /Users/asalles/projects/java-mysql-mcp/mcp-mysql-stdio-server.log
+
+# Database default configuration
+db:
+  host-prefix: "mysql://"
+  ssl-and-timezone: "?useSSL=false&serverTimezone=UTC&autoReconnect=true"

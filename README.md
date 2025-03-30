@@ -53,15 +53,21 @@ You can modify these settings in `src/main/resources/application.properties`
 ```
 
 ## Usage on MCP clients
+db.hostenv value is the host and port of the database server, for example: `host:port`, eg: `localhost:3306`
 ```
 {
   "mcpServers": {
-    "spring-ai-mcp-mysql": {
+    "blue-hero-database": {
       "command": "java",
       "args": [
         "-Dspring.ai.mcp.server.stdio=true",
+        "-Dserver.port=8080",
+        "-Ddb.hostenv=host:port",
+        "-Ddb.schema=/demo",
+        "-Ddb.user=username",
+        "-Ddb.passwordenv=password",
         "-jar",
-        "/Users/asalles/projects/java-mysql-mcp/target/java-mysql-mcp-0.0.1-SNAPSHOT.jar"
+        "/path/to/java-mysql-mcp/target/java-mysql-mcp-0.0.1-SNAPSHOT.jar"
       ]
     }
   }
@@ -73,4 +79,4 @@ You can use the mcp inspector for testing and debugging with the following comma
 ```
 npx @modelcontextprotocol/inspector java -Dspring.ai.mcp.server.stdio=true -jar /path/to/project/target/java-mysql-mcp-0.0.1-SNAPSHOT.jar
 ```
-The logs output in ./mcp-mysql-stdio-server.log will only be shown if running with this tool
+The logs output will be created in ./mcp-mysql-stdio-server.log
