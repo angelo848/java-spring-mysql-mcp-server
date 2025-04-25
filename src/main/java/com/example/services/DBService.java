@@ -130,20 +130,9 @@ public class DBService {
      * Searches for rows in a table based on WHERE conditions with pagination and support for various operators.
      * @param tableName The name of the table to search
      * @param conditions Map of column names to condition objects with "operator" and "value" fields
-     * @param page The page number (0-based)
+     * @param page The page number (1-based)
      * @param pageSize The number of records per page
      * @return Formatted string representation of matching rows
-     * Supported operators:
-     * - "=" or "EQUALS": Exact match (value: any type)
-     * - ">" or "GT": Greater than (value: comparable type)
-     * - ">=" or "GTE": Greater than or equal (value: comparable type)
-     * - "<" or "LT": Less than (value: comparable type)
-     * - "<=" or "LTE": Less than or equal (value: comparable type)
-     * - "LIKE": Pattern matching with wildcards (value: string with % or _ wildcards)
-     * - "IN": Value in a list (value: List of items)
-     * - "BETWEEN": Value between two points (value: List with exactly 2 elements)
-     * - "IS NULL": Field is null (value: not used)
-     * - "IS NOT NULL": Field is not null (value: not used)
      */
     @Tool(description = "Search for rows in a table using column conditions with various operators")
     public String searchRows(String tableName, Map<String, Map<String, Object>> conditions, Integer page, Integer pageSize) {
@@ -160,10 +149,11 @@ public class DBService {
         }
 
         // Handle null values for page and pageSize
-        if (page == null || page < 0) page = 0;
+        if (page == null || page < 1) page = 1; // Adjusted to start at 1
         if (pageSize == null || pageSize <= 0) pageSize = 50;
 
         try {
+            int offset = (page - 1) * pageSize; // Adjusted offset calculation
             StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + tableName + " WHERE ");
             List<Object> params = new ArrayList<>();
 
@@ -248,7 +238,7 @@ public class DBService {
 
             queryBuilder.append(" LIMIT ? OFFSET ?");
             params.add(pageSize);
-            params.add(page * pageSize);
+            params.add(offset);
 
             List<Map<String, Object>> rows = jdbcTemplate.queryForList(queryBuilder.toString(), params.toArray());
 
@@ -257,7 +247,7 @@ public class DBService {
             }
 
             StringBuilder result = new StringBuilder();
-            result.append("Search results - Page: ").append(page + 1).append(", Size: ").append(pageSize).append("\n\n");
+            result.append("Search results - Page: ").append(page).append(", Size: ").append(pageSize).append("\n\n");
 
             // Add headers
             Map<String, Object> firstRow = rows.get(0);
